@@ -1,7 +1,7 @@
 @extends('layouts.layoutadmin1')
 
-@section('title','Kelas')
-@section('halaman','kelas')
+@section('title', 'Kelas')
+@section('halaman', 'Kelas')
 
 @section('csshere')
 @endsection
@@ -9,117 +9,114 @@
 @section('jshere')
 @endsection
 
-
 @section('notif')
+  @if (session('tipe'))
+    @php
+      $tipe = session('tipe');    
+    @endphp
+  @else
+    @php
+      $tipe = 'light';
+    @endphp
+  @endif
 
-@if (session('tipe'))
-        @php
-        $tipe=session('tipe');    
-        @endphp
-@else
-        @php
-            $tipe='light';
-        @endphp
-@endif
+  @if (session('icon'))
+    @php
+      $icon = session('icon');    
+    @endphp
+  @else
+    @php
+      $icon = 'far fa-lightbulb';
+    @endphp
+  @endif
 
-@if (session('icon'))
-        @php
-        $icon=session('icon');    
-        @endphp
-@else
-        @php
-            $icon='far fa-lightbulb';
-        @endphp
-@endif
-
-@php
-  $message=session('status');
-@endphp
-@if (session('status'))
-<x-alert tipe="{{ $tipe }}" message="{{ $message }}" icon="{{ $icon }}"/>
-
-@endif
-@endsection 
-
-
-{{-- DATATABLE --}}
-@section('headtable')
-  <th width="5%" class="text-center">#</th>
-  <th>Tahun Pelajaran </th>
-  <th width="100px" class="text-center">Aksi</th>
+  @php
+    $message = session('status');
+  @endphp
+  @if (session('status'))
+    <x-alert tipe="{{ $tipe }}" message="{{ $message }}" icon="{{ $icon }}" />
+  @endif
 @endsection
 
-@section('bodytable')
-@foreach ($datas as $data)
-  <tr>
-    <td>{{ ((($loop->index)+1)+(($datas->currentPage()-1)*$datas->perPage())) }}</td>
-    <td>{{ $data->nama }}</td>
-
-    <td class="text-center">
-        <x-button-edit link="/admin/{{ $pages }}/{{$data->id}}" />
-        <x-button-delete link="/admin/{{ $pages }}/{{$data->id}}" />
-    </td>
-  </tr>
-@endforeach
-@endsection
-
-@section('foottable') 
-  {{ $datas->links() }}
-  <nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-      <li class="breadcrumb-item"><i class="far fa-file"></i> Halaman ke-{{ $datas->currentPage() }}</li>
-      <li class="breadcrumb-item"><i class="fas fa-paste"></i> {{ $datas->total() }} Total Data</li>
-      <li class="breadcrumb-item active" aria-current="page"><i class="far fa-copy"></i> {{ $datas->perPage() }} Data Perhalaman</li>
-  </ol>
-  </nav>
-@endsection
-
-{{-- DATATABLE-END --}}
 @section('container')
   <div class="section-body">
-    <div class="row mt-sm-4">
+    <div class="row">
+      <!-- Form Tambah Kelas -->
+      <div class="col-12 mb-4">
+        <div class="card-modern">
+          <div class="widget-title">
+            <i class="fas fa-plus-circle mr-2"></i> Tambah Kelas
+          </div>
+          <form action="/admin/{{ $pages }}" method="post">
+            @csrf
+            <div class="row">
+              <div class="col-12 form-group mb-4">
+                <label class="form-label" for="nama">Nama Kelas</label>
+                <input type="text" name="nama" id="nama" class="custom-input @error('nama') is-invalid @enderror"
+                  placeholder="Contoh: XII IPA 1" value="{{old('nama')}}" required>
+                @error('nama')<div class="invalid-feedback"> {{$message}}</div>@enderror
+              </div>
+            </div>
 
-      <div class="col-12 col-md-12 col-lg-5">
-        <x-layout-table pages="{{ $pages }}" pagination="{{ $datas->perPage() }}"/>
-      </div>    
-      <div class="col-12 col-md-12 col-lg-7">
-        <div class="card">
-            <form action="/admin/{{ $pages }}" method="post">
-                @csrf
-            <div class="card-header">
-                <span class="btn btn-icon btn-light"><i class="fas fa-feather"></i> TAMBAH {{ Str::upper($pages) }}</span>
-            </div>
-            <div class="card-body">
-                <div class="row">
-                  <div class="form-group col-md-12 col-12">
-                    <label for="nama">Nama</label>
-                    <input type="text" name="nama" id="nama" class="form-control @error('nama') is-invalid @enderror" placeholder="X IPA 1" value="{{old('nama')}}" required>
-                    @error('nama')<div class="invalid-feedback"> {{$message}}</div>
-                    @enderror
-                  </div>
-                 
-                </div>
-             
-           
-                <div class="row">
-                  <div class="form-group mb-0 col-12">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" name="remember" class="custom-control-input" id="newsletter">
-                  
-                      
-                    </div>
-                  </div>
-                </div>
-            </div>
-            <div class="card-footer text-right">
-              <button class="btn btn-primary">Simpan</button>
+            <div class="text-right">
+              <button class="btn btn-dark px-4 py-2" style="background-color: #1a202c; border-radius: 8px;">
+                <i class="fas fa-save mr-1"></i> Simpan
+              </button>
             </div>
           </form>
         </div>
+      </div>
 
+      <!-- Tabel Data Kelas -->
+      <div class="col-12">
+        <div class="card-modern">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="widget-title mb-0">
+              <i class="fas fa-list mr-2"></i> Daftar Kelas
+            </div>
+            <div class="text-muted small">
+              Total: {{ $jmldata }} Data
+            </div>
+          </div>
 
-        
+          <div class="table-responsive">
+            <table class="table table-hover table-borderless">
+              <thead style="background-color: #f7fafc; border-bottom: 2px solid #edf2f7;">
+                <tr>
+                  <th class="py-3 px-4 text-secondary font-weight-bold ml-2">#</th>
+                  <th class="py-3 px-4 text-secondary font-weight-bold">Nama Kelas</th>
+                  <th class="py-3 px-4 text-secondary font-weight-bold text-center">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach ($datas as $data)
+                  <tr style="border-bottom: 1px solid #edf2f7;">
+                    <td class="py-3 px-4">{{ ((($loop->index) + 1) + (($datas->currentPage() - 1) * $datas->perPage())) }}</td>
+                    <td class="py-3 px-4 font-weight-600 text-dark">{{ $data->nama }}</td>
+                    <td class="py-3 px-4 text-center">
+                      <a href="/admin/{{ $pages }}/{{$data->id}}" class="btn btn-sm btn-icon btn-light mr-1"
+                        data-toggle="tooltip" title="Edit">
+                        <i class="fas fa-edit text-warning"></i>
+                      </a>
+                      <form action="/admin/{{ $pages }}/{{$data->id}}" method="post" class="d-inline">
+                        @method('delete')
+                        @csrf
+                        <button class="btn btn-sm btn-icon btn-light"
+                          onclick="return confirm('Anda yakin menghapus data ini?')" data-toggle="tooltip" title="Hapus">
+                          <i class="fas fa-trash text-danger"></i>
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
 
+          <div class="d-flex justify-content-end mt-4">
+            {{ $datas->links() }}
+          </div>
+        </div>
       </div>
     </div>
   </div>

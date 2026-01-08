@@ -1,7 +1,7 @@
 @extends('layouts.layoutadmin1')
 
-@section('title','Kategori')
-@section('halaman','kategori')
+@section('title', 'Kategori')
+@section('halaman', 'Kategori')
 
 @section('csshere')
 @endsection
@@ -9,154 +9,142 @@
 @section('jshere')
 @endsection
 
-
 @section('notif')
+  @if (session('tipe'))
+    @php
+      $tipe = session('tipe');    
+    @endphp
+  @else
+    @php
+      $tipe = 'light';
+    @endphp
+  @endif
 
+  @if (session('icon'))
+    @php
+      $icon = session('icon');    
+    @endphp
+  @else
+    @php
+      $icon = 'far fa-lightbulb';
+    @endphp
+  @endif
 
-@if (session('tipe'))
-        @php
-        $tipe=session('tipe');    
-        @endphp
-@else
-        @php
-            $tipe='light';
-        @endphp
-@endif
-
-@if (session('icon'))
-        @php
-        $icon=session('icon');    
-        @endphp
-@else
-        @php
-            $icon='far fa-lightbulb';
-        @endphp
-@endif
-
-@if (session('status'))
-
-  <div class="alert alert-{{ $tipe }} alert-has-icon alert-dismissible show fade">
-    <div class="alert-icon"><i class="{{ $icon }}"></i></div>
-                      <div class="alert-body">
-                        <div class="alert-title">{{ Str::ucfirst($tipe) }}</div>
-                        <button class="close" data-dismiss="alert">
-                          <span>&times;</span>
-                        </button>
-                        {{ session('status') }}
-                      </div>
-                    </div>
-@endif
-@endsection 
+  @if (session('status'))
+    <div class="alert alert-{{ $tipe }} alert-has-icon alert-dismissible show fade">
+      <div class="alert-icon"><i class="{{ $icon }}"></i></div>
+      <div class="alert-body">
+        <div class="alert-title">{{ Str::ucfirst($tipe) }}</div>
+        <button class="close" data-dismiss="alert">
+          <span>&times;</span>
+        </button>
+        {{ session('status') }}
+      </div>
+    </div>
+  @endif
+@endsection
 
 @section('container')
-
   <div class="section-body">
-
-    <div class="row mt-sm-4">
-      <div class="col-12 col-md-12 col-lg-5">
-        <div class="card profile-widget">
-          <div class="profile-widget-header">
-            <img alt="image" src="{{ asset("assets/") }}/img/products/product-3-50.png" class="rounded-circle profile-widget-picture">
-            <div class="profile-widget-items">
-              <div class="profile-widget-item">
-                <div class="profile-widget-item-label">Tabel </div>
-                <div class="profile-widget-item-value">@yield('title')</div>
-                {{-- <h4>Simple Table</h4> --}}
-              </div>
-              <div class="profile-widget-item">
-                <div class="profile-widget-item-label">Jumlah Data</div>
-                <div class="profile-widget-item-value">{{ $jmldata }} Data</div>
-              </div>
-            </div>
+    <div class="row">
+      <!-- Form Tambah Kategori -->
+      <div class="col-12 mb-4">
+        <div class="card-modern">
+          <div class="widget-title">
+            <i class="fas fa-plus-circle mr-2"></i> Tambah Kategori
           </div>
+          <form action="/admin/{{ $pages }}" method="post">
+            @csrf
 
-           
-        
-                  
-                    <div class="card-body -mt-5">
-                      <div class="table-responsive">
-                        <table class="table table-bordered table-md">
-                          <tr>
-                            <th width="5%" class="text-center">#</th>
-                            <th>Nama</th>
-                            <th>Prefix</th>
-                            <th width="20%" class="text-center">Aksi</th>
-                          </tr>
-
-                        @foreach ($datas as $data)
-                          <tr>
-                            <td>{{ ($loop->index)+1 }}</td>
-                            <td>{{ $data->nama }}</td>
-                            <th>{{ ucfirst($data->prefix) }}</th>
-                          
-                            <td>
-                                <a href="/admin/{{ $pages }}/{{$data->id}}" class="btn btn-icon btn-warning"><i class="fas fa-edit"></i></a>
-                                {{-- <a href="#" class="btn btn-icon btn-danger"><i class="fas fa-trash"></i></a> --}}
-                                <form action="/admin/{{ $pages }}/{{$data->id}}" method="post" class="d-inline">
-                                    @method('delete')
-                                    @csrf
-                                    <button class="btn btn-icon btn-danger"
-                                        onclick="return  confirm('Anda yakin menghapus data ini? Y/N')"><span
-                                            class="pcoded-micon"> <i class="fas fa-trash"></i></span></button>
-                                </form>
-                            </td>
-                          </tr>
-                          @endforeach
-                        
-                        </table>
-                      </div>
-                    </div>
-            
-       
-      
-        </div>
-
-
-     
-      </div>
-      <div class="col-12 col-md-12 col-lg-7">
-        <div class="card">
-            <form action="/admin/{{ $pages }}" method="post">
-                @csrf
-            <div class="card-header">
-                <span class="btn btn-icon btn-light"><i class="fas fa-feather"></i> TAMBAH {{ Str::upper($pages) }}</span>
+            <div class="form-group mb-4">
+              <label class="form-label" for="nama">Nama Kategori</label>
+              <input type="text" name="nama" id="nama" class="custom-input @error('nama') is-invalid @enderror"
+                value="{{old('nama')}}" required placeholder="Contoh: Dana BOS">
+              @error('nama')<div class="invalid-feedback"> {{$message}}</div>@enderror
             </div>
-            <div class="card-body">
-                <div class="row">
-                  <div class="form-group col-md-6 col-6">
-                    <label for="nama">Nama <code>*)</code></label>
-                    <input type="text" name="nama" id="nama" class="form-control @error('nama') is-invalid @enderror" value="{{old('nama')}}" required>
-                    @error('nama')<div class="invalid-feedback"> {{$message}}</div>
-                    @enderror
-                  </div>
-                 
 
-                  <div class="form-group col-md-6 col-6">
-                    <label>Prefix <code>*)</code></label>
-                    <select class="form-control form-control-lg" required name="prefix"> 
-                      @if (old('prefix'))
-                      <option value="{{ old('prefix') }}">{{ucfirst(old('prefix'))}}</option>                        
-                      @endif
-                      <option value="pegawai">Pegawai</option>
-                      <option value="pemasukan">Pemasukan</option>
-                      <option value="pengeluaran">Pengeluaran</option>
-                      <option value="semester">Semester</option>
-                    </select>
-                  </div>
-
-                
+            <div class="form-group mb-4">
+              <label class="form-label">Prefix / Jenis</label>
+              <div class="select-wrapper relative">
+                <select class="custom-input appearance-none" required name="prefix">
+                  @if (old('prefix'))
+                    <option value="{{ old('prefix') }}">{{ucfirst(old('prefix'))}}</option>
+                  @else
+                    <option value="" disabled selected>Pilih Jenis Kategori</option>
+                  @endif
+                  <option value="pegawai">Pegawai</option>
+                  <option value="pemasukan">Pemasukan</option>
+                  <option value="pengeluaran">Pengeluaran</option>
+                  <option value="semester">Semester</option>
+                </select>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <!-- Optional arrow icon here if needed via CSS -->
                 </div>
-             
+              </div>
             </div>
-            <div class="card-footer text-right">
-              <button class="btn btn-primary">Simpan</button>
+
+            <div class="text-right">
+              <button class="btn btn-dark px-4 py-2" style="background-color: #1a202c; border-radius: 8px;">
+                <i class="fas fa-save mr-1"></i> Simpan
+              </button>
             </div>
           </form>
         </div>
+      </div>
 
+      <!-- Tabel Data Kategori -->
+      <div class="col-12">
+        <div class="card-modern">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="widget-title mb-0">
+              <i class="fas fa-list mr-2"></i> Daftar Kategori
+            </div>
+            <div class="text-muted small">
+              Total: {{ $jmldata }} Data
+            </div>
+          </div>
 
-        
-
+          <div class="table-responsive">
+            <table class="table table-hover table-borderless">
+              <thead style="background-color: #f7fafc; border-bottom: 2px solid #edf2f7;">
+                <tr>
+                  <th class="py-3 px-4 text-secondary font-weight-bold ml-2">#</th>
+                  <th class="py-3 px-4 text-secondary font-weight-bold">Nama</th>
+                  <th class="py-3 px-4 text-secondary font-weight-bold">Jenis (Prefix)</th>
+                  <th class="py-3 px-4 text-secondary font-weight-bold text-center">Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach ($datas as $data)
+                  <tr style="border-bottom: 1px solid #edf2f7;">
+                    <td class="py-3 px-4">{{ ($loop->index) + 1 }}</td>
+                    <td class="py-3 px-4 font-weight-600 text-dark">{{ $data->nama }}</td>
+                    <td class="py-3 px-4">
+                      <span class="badge badge-light px-3 py-2 text-dark"
+                        style="background-color: #edf2f7; font-weight: 500;">
+                        {{ ucfirst($data->prefix) }}
+                      </span>
+                    </td>
+                    <td class="py-3 px-4 text-center">
+                      <a href="/admin/{{ $pages }}/{{$data->id}}" class="btn btn-sm btn-icon btn-light mr-1"
+                        data-toggle="tooltip" title="Edit">
+                        <i class="fas fa-edit text-warning"></i>
+                      </a>
+                      <form action="/admin/{{ $pages }}/{{$data->id}}" method="post" class="d-inline">
+                        @method('delete')
+                        @csrf
+                        <button class="btn btn-sm btn-icon btn-light"
+                          onclick="return confirm('Anda yakin menghapus data ini?')" data-toggle="tooltip" title="Hapus">
+                          <i class="fas fa-trash text-danger"></i>
+                        </button>
+                      </form>
+                    </td>
+                  </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>

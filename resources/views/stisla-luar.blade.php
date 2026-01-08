@@ -1,130 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
   <title>{{ config('app.name', 'Laravel') }}</title>
 
-  <!-- General CSS Files -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- CSS Libraries -->
-  <link rel="stylesheet" href="../node_modules/bootstrap-social/bootstrap-social.css">
+  <!-- Modern Auth CSS -->
+  <link rel="stylesheet" href="{{ asset('assets/css/modern-auth.css') }}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
 
-  <!-- Template CSS -->
-  <link rel="stylesheet" href="../assets/css/style.css">
-  <link rel="stylesheet" href="../assets/css/components.css">
 </head>
 
 <body>
-  <div id="app">
-    <section class="section">
-      <div class="container mt-5">
-        <div class="row">
-          <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
-            <div class="login-brand">
-              <img src="{{asset('/assets/upload/logoyayasan.png')}}" alt="logo" width="100" class="shadow-light rounded-circle">
-              {{-- <img src="{{asset('/assets/upload/logoyayasan.png')}}" alt="logo" width="100" class="shadow-light "> --}}
-            </div>
-
-
-
-            <div class="card card-primary">
-              <div class="card-header text-center"><h4>SISTEM ADMINISTRASI KEUANGAN SEKOLAH</h4>
-              </div>
-
-              <div class="card-body">
-                <form action="{{ route('login') }}" method="POST">
-                    @csrf
-                {{-- <form method="POST" action="#" class="needs-validation" novalidate=""> --}}
-                  <div class="form-group">
-                    <label for="email">Email</label>
-                    <input id="email" type="email" class="form-control @error('email')
-
-                    @enderror" name="email" tabindex="1" required autofocus>
-
-                    @error('email')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
-                  </div>
-
-                  <div class="form-group">
-                    <div class="d-block">
-                    	<label for="password" class="control-label">Password</label>
-                      {{-- <div class="float-right">
-                        <a href="/forgot-password" class="text-small">
-                          Lupa Password?
-                        </a>
-                      </div> --}}
-                    </div>
-                    <input id="password" type="password" class="form-control @error('password')
-
-                    @enderror" name="password" tabindex="2" required>
-
-                    @error('password')
-                    <div class="invalid-feedback">
-                        {{ $message }}
-                    </div>
-                @enderror
-                  </div>
-
-                  <div class="form-group">
-                    <div class="custom-control custom-checkbox">
-                      <input type="checkbox" name="remember" class="custom-control-input" tabindex="3" id="remember-me">
-                      <label class="custom-control-label" for="remember-me">Remember Me</label>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                      Login
-                    </button>
-                  </div>
-                </form>
-
-
-              </div>
-            </div>
-            @php
-              // exec('git rev-parse --verify HEAD 2> /dev/null', $output);
-              // $hash = $output[0];
-              // dd($hash)
-
-              $commitHash = trim(exec('git log --pretty="%h" -n1 HEAD'));
-
-              $commitDate = new \DateTime(trim(exec('git log -n1 --pretty=%ci HEAD')));
-              $commitDate->setTimezone(new \DateTimeZone('UTC'));
-
-              // dd($commitDate);
-              // dd($commitDate->format('Y-m-d H:i:s'));
-              $versi=$commitDate->format('Ymd.H.i.s');
-          @endphp
-            <div class="simple-footer">
-              Copyright &copy; 2021  v0. {{ $versi }}
-            </div>
-          </div>
-        </div>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="brand-logo">
+        <img src="{{asset('/assets/upload/logoyayasan.png')}}" alt="logo" width="30" class="rounded-circle mr-2">
+        <!-- Or keep the 'N' if preferred, but user had a school logo -->
       </div>
-    </section>
+
+      <h1 class="login-title">SISTEM ADMINISTRASI KEUANGAN SEKOLAH</h1>
+      <p class="login-subtitle">Silahkan login untuk melanjutkan</p>
+
+      <form action="{{ route('login') }}" method="POST">
+        @csrf
+
+        <div class="mb-4">
+          <label class="form-label" for="email">Email</label>
+          <input id="email" type="email" class="custom-input @error('email') is-invalid @enderror" name="email"
+            tabindex="1" required autofocus>
+          @error('email')
+            <div style="color: red; font-size: 13px; margin-top: 5px;">
+              {{ $message }}
+            </div>
+          @enderror
+        </div>
+
+        <div class="mb-4">
+          <div style="display: flex; justify-content: space-between;">
+            <label class="form-label" for="password">Password</label>
+          </div>
+          <input id="password" type="password" class="custom-input @error('password') is-invalid @enderror"
+            name="password" tabindex="2" required>
+          @error('password')
+            <div style="color: red; font-size: 13px; margin-top: 5px;">
+              {{ $message }}
+            </div>
+          @enderror
+        </div>
+
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px;">
+          <label for="remember-me"
+            style="display: flex; align-items: center; font-size: 14px; color: #718096; cursor: pointer;">
+            <input type="checkbox" name="remember" id="remember-me" tabindex="3" style="margin-right: 8px;">
+            Remember Me
+          </label>
+        </div>
+
+        <button type="submit" class="custom-btn" tabindex="4">
+          Login
+        </button>
+      </form>
+
+      <div style="text-align: center; margin-top: 20px; color: #a0aec0; font-size: 12px;">
+        Copyright &copy; 2022 v0.1
+      </div>
+    </div>
   </div>
-
-  <!-- General JS Scripts -->
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-  <script src="../assets/js/stisla.js"></script>
-
-  <!-- JS Libraies -->
-
-  <!-- Template JS File -->
-  <script src="../assets/js/scripts.js"></script>
-  <script src="../assets/js/custom.js"></script>
-
-  <!-- Page Specific JS File -->
 </body>
+
 </html>

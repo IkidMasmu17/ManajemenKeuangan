@@ -1,0 +1,186 @@
+/* Modern Dashboard CSS Overrides */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+body {
+    background-color: #F8F9FD !important;
+    font-family: 'Inter', sans-serif !important;
+    color: #2D3748;
+}
+
+/* Navbar */
+.navbar-bg {
+    background: transparent !important;
+    height: 80px;
+}
+.navbar {
+    background-color: #ffffff !important;
+    box-shadow: none !important;
+    border-bottom: 1px solid #eef1f6;
+    height: 80px;
+}
+.navbar .nav-link {
+    color: #2D3748 !important;
+    font-weight: 500;
+}
+.navbar .form-inline .btn {
+    background-color: #2d3748;
+}
+
+/* Sidebar */
+.main-sidebar {
+    box-shadow: none !important;
+    border-right: 1px solid #eef1f6;
+    background-color: #ffffff !important;
+}
+.main-sidebar .sidebar-brand {
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: -0.5px;
+    text-align: left;
+    padding-left: 25px;
+}
+.main-sidebar .sidebar-brand a {
+    color: #1a202c !important;
+}
+.sidebar-menu li a {
+    color: #718096 !important;
+    font-weight: 500;
+    border-radius: 8px;
+    margin: 0 10px;
+    height: 45px;
+    line-height: 45px;
+}
+.sidebar-menu li.active a {
+    background-color: #1a202c !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.sidebar-menu li a:hover {
+    background-color: #edf2f7 !important;
+    color: #2d3748 !important;
+}
+.sidebar-menu li.menu-header {
+    padding: 10px 25px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: #a0aec0;
+}
+
+/* Main Content */
+.main-content {
+    padding-top: 100px;
+}
+.section-header {
+    display: none !important; /* Hide old header for cleaner look */
+}
+
+/* Cards */
+.card-modern {
+    border: none;
+    border-radius: 16px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 24px;
+    padding: 24px;
+    height: 100%;
+}
+.card-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.stat-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-bottom: 16px;
+}
+.bg-icon-dark { background-color: #1a202c; color: white; }
+.bg-icon-light { background-color: #edf2f7; color: #1a202c; }
+
+.stat-label {
+    font-size: 13px;
+    color: #718096;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+.stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 0;
+}
+.stat-meta {
+    font-size: 12px;
+    margin-top: 8px;
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 20px;
+}
+.meta-success { background-color: #c6f6d5; color: #22543d; }
+.meta-neutral { background-color: #edf2f7; color: #4a5568; }
+
+/* Dashboard Headers */
+.dashboard-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 8px;
+}
+.dashboard-subtitle {
+    color: #718096;
+    font-size: 15px;
+    margin-bottom: 32px;
+}
+
+/* Charts & Widgets */
+.widget-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 20px;
+}
+.progress-modern {
+    height: 8px;
+    border-radius: 4px;
+    background-color: #edf2f7;
+    margin-bottom: 15px;
+    position: relative;
+}
+.progress-bar-modern {
+    background-color: #1a202c;
+    border-radius: 4px;
+    height: 100%;
+}
+.expense-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.expense-info {
+    flex-grow: 1;
+    margin-left: 15px;
+}
+.expense-name {
+    font-weight: 600;
+    color: #2d3748;
+}
+.expense-amount {
+    font-weight: 700;
+    color: #1a202c;
+}
+
+/* Hide default footer */
+.main-footer {
+    border-top: none;
+    margin-top: 0;
+    padding: 20px 0;
+    text-align: center;
+    color: #cbd5e0;
+}
